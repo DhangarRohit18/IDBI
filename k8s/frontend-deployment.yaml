@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fintwin-frontend
+  namespace: fintwin-prod
+  labels:
+    app: fintwin-frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: fintwin-frontend
+  template:
+    metadata:
+      labels:
+        app: fintwin-frontend
+    spec:
+      containers:
+      - name: frontend
+        image: ghcr.io/your-org/fintwin-frontend:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+        envFrom:
+        - configMapRef:
+            name: fintwin-config
+        resources:
+          requests:
+            cpu: "250m"
+            memory: "256Mi"
+          limits:
+            cpu: "500m"
+            memory: "512Mi"

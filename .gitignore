@@ -1,0 +1,60 @@
+# Dependency directories
+node_modules/
+jspm_packages/
+web_cache/
+
+# Next.js build output
+.next/
+out/
+
+# Python cache & build directories
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*,cover
+.hypothesis/
+.pytest_cache/
+
+# Local configuration/secrets
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env*.local
+
+# System/IDE files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# Storage and runtime files
+storage/uploads/
+logs/
+*.log
+
+# Docker/compose files we want to keep, but exclude volumes if they are created locally
+postgres_data/
+redis_data/
+qdrant_data/
+storage_data/
+model_data/

@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fintwin-celery-ml
+  namespace: fintwin-prod
+  labels:
+    app: fintwin-celery
+    queue: ml
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: fintwin-celery
+      queue: ml
+  template:
+    metadata:
+      labels:
+        app: fintwin-celery
+        queue: ml
+    spec:
+      containers:
+      - name: celery
+        image: ghcr.io/your-org/fintwin-backend:latest
+        command: ["celery", "-A", "app.tasks.celery_app", "worker", "--loglevel=info", "-Q", "ml_queue,digital_twin_queue", "--concurrency=4"]
+        envFrom:
+        - configMapRef:
+            name: fintwin-config
+        - secretRef:
+            name: fintwin-secrets
+        resources:
+          requests:
+            cpu: "1000m"
+            memory: "2Gi"
+          limits:
+            cpu: "2000m"
+            memory: "4Gi"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fintwin-celery-ews
+  namespace: fintwin-prod
+  labels:
+    app: fintwin-celery
+    queue: ews
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: fintwin-celery
+      queue: ews
+  template:
+    metadata:
+      labels:
+        app: fintwin-celery
+        queue: ews
+    spec:
+      containers:
+      - name: celery
+        image: ghcr.io/your-org/fintwin-backend:latest
+        command: ["celery", "-A", "app.tasks.celery_app", "worker", "--loglevel=info", "-Q", "ews_queue,notification_queue", "--concurrency=8"]
+        envFrom:
+        - configMapRef:
+            name: fintwin-config
+        - secretRef:
+            name: fintwin-secrets
+        resources:
+          requests:
+            cpu: "500m"
+            memory: "1Gi"
+          limits:
+            cpu: "1000m"
+            memory: "2Gi"
