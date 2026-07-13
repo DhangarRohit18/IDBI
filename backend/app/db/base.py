@@ -16,6 +16,11 @@ class Base(DeclarativeBase):
     pass
 
 
+# Import all models to ensure they are registered with DeclarativeBase
+import app.models
+
+
+
 # Async engine
 engine: AsyncEngine = create_async_engine(
     settings.DATABASE_URL,

@@ -41,6 +41,14 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     await init_db()
     logger.info("Database connection pool initialized")
 
+    # Auto-seed database with mock assessment data on boot
+    try:
+        from app.db.seed import seed
+        await seed()
+        logger.info("Database seeded successfully during startup")
+    except Exception as e:
+        logger.error("Failed to seed database during startup", error=str(e))
+
     # Initialize Qdrant collections
     from app.utils.qdrant_init import ensure_collections
     await ensure_collections()
